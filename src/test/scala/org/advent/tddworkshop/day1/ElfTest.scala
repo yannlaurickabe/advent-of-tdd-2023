@@ -1,6 +1,6 @@
 package org.advent.tddworkshop.day1
 
-import org.utils.TestBase
+import org.advent.helpers.TestBase
 
 class ElfTest extends TestBase {
   "an elf" should {
