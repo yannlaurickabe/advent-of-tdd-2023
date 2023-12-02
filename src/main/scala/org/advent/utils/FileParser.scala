@@ -3,14 +3,18 @@ package org.advent.utils
 import scala.io.Source
 import scala.util.{Try, Using}
 
-sealed trait FileParsing {
+trait FileParsing {
   def parseFile(path: String): Try[Seq[String]]
 }
 
-object FileParser extends FileParsing {
+class FileParser extends FileParsing {
   def parseFile(path: String): Try[Seq[String]] =
     Using.Manager { use =>
       val file = use(Source.fromFile(path))
       file.getLines().toSeq
     }
+}
+
+object FileParser {
+  lazy val unique: FileParser = new FileParser
 }
