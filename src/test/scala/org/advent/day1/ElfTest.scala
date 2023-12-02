@@ -105,8 +105,17 @@ class ElfTest extends TestBase with MockitoSugar {
 
     """return all the calibration values when the file is not empty and contains a mix of numerical
       | and spelled out digits""".stripMargin in new AllCalibrationValuesSetup {
-      when(fileParsing.parseFile(any)) thenReturn Success(Seq("1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"))
-      val expected: Seq[Int] = Seq(12, 38, 15, 77)
+      val lines: Seq[String] = Seq(
+        "two1nine",
+        "eightwothree",
+        "abcone2threexyz",
+        "xtwone3four",
+        "4nineeightseven2",
+        "zoneight234",
+        "7pqrstsixteen"
+      )
+      when(fileParsing.parseFile(any)) thenReturn Success(lines)
+      val expected: Seq[Int] = Seq(29, 83, 13, 24, 42, 14, 76)
 
       testObj.findAllCalibrationValuesFromFile(path) shouldBe expected
     }
