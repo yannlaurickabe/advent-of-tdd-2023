@@ -35,7 +35,7 @@ class Elf(fileParser: FileParsing) {
 }
 
 object Elf {
-  def apply() = new Elf(FileParser)
+  def apply() = new Elf(FileParser.unique)
 
   private def fromLetterToDigit(s: String): String = s match {
     case "one" => "o1e"
