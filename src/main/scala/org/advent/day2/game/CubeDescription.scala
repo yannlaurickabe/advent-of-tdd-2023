@@ -15,10 +15,10 @@ object CubeDescription {
     case redPattern(quantity) => Red(Integer.valueOf(quantity))
     case greenPattern(quantity) => Green(Integer.valueOf(quantity))
     case bluePattern(quantity) => Blue(Integer.valueOf(quantity))
-    case _ => throw UnexpectedFormatException("Unexpected colour")
+    case _ => throw UnexpectedCubeDescriptionFormatException("Unexpected colour")
   }
 
-  private val redPattern: Regex = """([1-9][0-9]*) red""".r
-  private val greenPattern: Regex = """([1-9][0-9]*) green""".r
-  private val bluePattern: Regex = """([1-9][0-9]*) blue""".r
+  private val redPattern: Regex = s"""($nonNullIntegerPattern) red""".r
+  private val greenPattern: Regex = s"""($nonNullIntegerPattern) green""".r
+  private val bluePattern: Regex = s"""($nonNullIntegerPattern) blue""".r
 }

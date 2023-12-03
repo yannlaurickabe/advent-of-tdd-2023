@@ -2,7 +2,9 @@ package org.advent.day2.game
 
 import scala.util.matching.Regex
 
-case class Game(id: Int, revealedCubes: Seq[Hint])
+case class Game(id: Int, revealedCubes: Seq[Hint]) {
+  def isPossible(bagContent: BagContent): Boolean = revealedCubes.forall(_.isPossible(bagContent))
+}
 
 object Game {
   def apply(gameAsString: String): Game = gameAsString match {
@@ -11,9 +13,9 @@ object Game {
       val revealedCubes = hintsAsString.split(hintSeparator).map(Hint(_))
 
       Game(id, revealedCubes)
-    case _ => throw UnexpectedFormatException()
+    case _ => throw UnexpectedGameFormatException()
   }
 
-  private val gamePattern: Regex = """Game ([1-9]+): (.*)""".r
+  private val gamePattern: Regex = s"""Game ($nonNullIntegerPattern): (.*)""".r
   private val hintSeparator: String = "; "
 }
