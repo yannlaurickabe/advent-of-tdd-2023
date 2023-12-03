@@ -1,5 +1,7 @@
 package org.advent.day2
 
+import org.advent.day2.parsing.GameParser
+
 object Day2App extends App {
   val path = "src/main/resources/day1.txt"
   val elf: Elf = new Elf

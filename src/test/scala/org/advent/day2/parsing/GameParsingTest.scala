@@ -1,5 +1,7 @@
-package org.advent.day2
+package org.advent.day2.parsing
 
+import org.advent.day2.game.CubeDescription._
+import org.advent.day2.game.{Game, Hint, UnexpectedFormatException}
 import org.advent.helpers.{TestBase, TestHelper}
 
 class GameParsingTest extends TestBase {
@@ -10,8 +12,14 @@ class GameParsingTest extends TestBase {
     }
 
     "throw an exception if a game contains an unexpected colour" in new Setup {
-      override def path: String = s"$prefixPath/unexpextedColour.txt"
+      override def path: String = s"$prefixPath/unexpectedColour.txt"
       an[UnexpectedFormatException] shouldBe thrownBy(testObj.allGames(path))
+    }
+
+    "throw an exception if there are more than 3 cube categories revealed" in new Setup {
+      override def path: String = s"$prefixPath/tooMuchCubesCategories.txt"
+
+      an[IllegalArgumentException] shouldBe thrownBy(testObj.allGames(path))
     }
 
     "throw an exception if a game is missing a content" in new Setup {
@@ -21,14 +29,14 @@ class GameParsingTest extends TestBase {
 
     "recognize a game with a single regular hint" in new Setup {
       override def path: String = s"$prefixPath/singleSimpleGame.txt"
-      val expected: Seq[Game] = Seq(Game(1, Seq(HandfulOfCubes(4, 2, 3))))
+      val expected: Seq[Game] = Seq(Game(1, Seq(Hint(Seq(Red(4), Green(2), Blue(3))))))
 
       testObj.allGames(path) shouldBe expected
     }
 
     "recognize a game with a single complex hint" in new Setup {
       override def path: String = s"$prefixPath/singleComplexGame.txt"
-      val expected: Seq[Game] = Seq(Game(1, Seq(HandfulOfCubes(1, 2))))
+      val expected: Seq[Game] = Seq(Game(1, Seq(Hint(Seq(Blue(1), Green(2))))))
 
       testObj.allGames(path) shouldBe expected
     }
@@ -37,9 +45,9 @@ class GameParsingTest extends TestBase {
       override def path: String = s"$prefixPath/simpleGame.txt"
       val expected: Seq[Game] = Seq(
         Game(1, Seq(
-          HandfulOfCubes(4, 2, 3),
-          HandfulOfCubes(1, 2, 6),
-          HandfulOfCubes(6, 2, 1)
+          Hint(Seq(Red(4), Green(2), Blue(3))),
+          Hint(Seq(Red(1), Green(2), Blue(6))),
+          Hint(Seq(Red(6), Green(2), Blue(1)))
         ))
       )
 
@@ -51,10 +59,10 @@ class GameParsingTest extends TestBase {
 
       val expected: Seq[Game] = Seq(
         Game(1, Seq(
-          HandfulOfCubes(0, 2, 1),
-          HandfulOfCubes(1, 3, 4),
-          HandfulOfCubes(0, 1, 1),
-          HandfulOfCubes(0, 8, 6)
+          Hint(Seq(Blue(1), Green(2))),
+          Hint(Seq(Green(3), Blue(4), Red(1))),
+          Hint(Seq(Green(1), Blue(1))),
+          Hint(Seq(Green(8), Blue(6)))
         ))
       )
 
@@ -77,33 +85,33 @@ class GameParsingTest extends TestBase {
 
     val expected: Seq[Game] = Seq(
       Game(1, Seq(
-        HandfulOfCubes(4, 0, 3),
-        HandfulOfCubes(1, 2, 6),
-        HandfulOfCubes(0, 2, 0)
+        Hint(Seq(Blue(3), Red(4))),
+        Hint(Seq(Red(1), Green(2), Blue(6))),
+        Hint(Seq(Green(2)))
         )
       ),
       Game(2, Seq(
-        HandfulOfCubes(0, 2, 1),
-        HandfulOfCubes(1, 3, 4),
-        HandfulOfCubes(0, 1, 1),
-      )
+        Hint(Seq(Blue(1), Green(2))),
+        Hint(Seq(Green(3), Blue(4), Red(1))),
+        Hint(Seq(Green(1), Blue(1))),
+        )
       ),
       Game(3, Seq(
-        HandfulOfCubes(20, 8, 6),
-        HandfulOfCubes(4, 13, 5),
-        HandfulOfCubes(1, 5, 0)
-      )
+        Hint(Seq(Green(8), Blue(6), Red(20))),
+        Hint(Seq(Blue(5), Red(4), Green(13))),
+        Hint(Seq(Green(5), Red(1)))
+        )
       ),
       Game(4, Seq(
-        HandfulOfCubes(3, 1, 6),
-        HandfulOfCubes(6, 3, 0),
-        HandfulOfCubes(14, 3, 15)
-      )
+        Hint(Seq(Green(1), Red(3), Blue(6))),
+        Hint(Seq(Green(3), Red(6))),
+        Hint(Seq(Green(3), Blue(15), Red(14)))
+        )
       ),
       Game(5, Seq(
-        HandfulOfCubes(6, 3, 1),
-        HandfulOfCubes(1, 2, 2)
-      )
+        Hint(Seq(Red(6), Blue(1), Green(3))),
+        Hint(Seq(Blue(2), Red(1), Green(2)))
+        )
       )
     )
   }
