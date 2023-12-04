@@ -1,9 +1,18 @@
 package org.advent.day2.game
 
 import scala.util.matching.Regex
+import scala.math.max
 
 case class Game(id: Int, revealedCubes: Seq[Hint]) {
-  def isPossible(bagContent: BagContent): Boolean = revealedCubes.forall(_.isPossible(bagContent))
+  def isPossible(bagContent: CubesSet): Boolean = revealedCubes.forall(_.isPossible(bagContent))
+
+  def minimumCubesSet: CubesSet = revealedCubes.map(_.perfectCubesSetMatch).reduce {
+    (cs1, cs2) =>
+      val minRed = max(cs1.reds, cs2.reds)
+      val minGreen = max(cs1.greens, cs2.greens)
+      val minBlue = max(cs1.blues, cs2.blues)
+      CubesSet(minRed, minGreen, minBlue)
+  }
 }
 
 object Game {
