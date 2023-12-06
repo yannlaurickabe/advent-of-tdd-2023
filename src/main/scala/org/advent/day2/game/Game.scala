@@ -2,6 +2,7 @@ package org.advent.day2.game
 
 import scala.util.matching.Regex
 import scala.math.max
+import org.advent.utils.nonNullIntegerPattern
 
 case class Game(id: Int, revealedCubes: Seq[Hint]) {
   def isPossible(bagContent: CubesSet): Boolean = revealedCubes.forall(_.isPossible(bagContent))
