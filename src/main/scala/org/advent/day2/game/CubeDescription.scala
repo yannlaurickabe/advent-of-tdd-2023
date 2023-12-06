@@ -1,6 +1,7 @@
 package org.advent.day2.game
 
 import scala.util.matching.Regex
+import org.advent.utils.nonNullIntegerPattern
 
 sealed trait CubeDescription {
   def quantity: Int
