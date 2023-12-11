@@ -45,3 +45,7 @@ build/
 ### Scala dev
 .bsp
 .bsp/*
+
+### Advent of code
+src/main/resources/day*
+
