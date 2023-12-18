@@ -8,7 +8,7 @@ trait FileParsing {
 }
 
 class FileParser extends FileParsing {
-  def parseFile(path: String): Try[Seq[String]] =
+  override def parseFile(path: String): Try[Seq[String]] =
     Using.Manager { use =>
       val file = use(Source.fromFile(path))
       file.getLines().toSeq
