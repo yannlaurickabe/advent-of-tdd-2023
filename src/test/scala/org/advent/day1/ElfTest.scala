@@ -7,8 +7,6 @@ import org.advent.utils.FileParsing
 import org.advent.helpers.{TestBase, TestHelper}
 import org.mockito.ArgumentMatchers.any
 
-import scala.collection.immutable.Seq
-
 class ElfTest extends TestBase with MockitoSugar {
 
   "findCalibrationValueFromLine(line)" should {

@@ -6,7 +6,7 @@ import scala.util.Try
 
 class FileParsingTest extends TestBase {
 
-  "parse(path)" should {
+  "parseFileIntoLines(path)" should {
     "throw an exception when the file could not be opened" in new Setup {
       val result: Try[Seq[String]] = testObj.parseFile("randomPath")
 
