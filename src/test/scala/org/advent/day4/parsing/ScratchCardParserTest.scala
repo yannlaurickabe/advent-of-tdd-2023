@@ -1,6 +1,6 @@
 package org.advent.day4.parsing
 
-import org.advent.day4.{Day4TestHelper, ScratchCard}
+import org.advent.day4.Day4TestHelper
 import org.advent.helpers.TestBase
 
 class ScratchCardParserTest extends TestBase {
@@ -8,7 +8,7 @@ class ScratchCardParserTest extends TestBase {
     "throw an exception if the file is not found" in new Setup {
       override def path: String = s"randomPath"
 
-      an [Exception] shouldBe thrownBy(testObj.allCards(path))
+      an[Exception] shouldBe thrownBy(testObj.allCards(path))
     }
 
     "throw an exception when there are no numbers on the card" in new Setup {
