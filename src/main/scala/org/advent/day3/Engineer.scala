@@ -48,7 +48,13 @@ class Engineer(schematic: Seq[Seq[Char]]) {
   }
 
   private def adjacentSymbol(numberLocation: NumberLocation): Option[Char] = {
-    def adjacentSymbol(i: Int, j: Int): Option[Char] = horizontallyAdjacent(i, j)
+    def adjacentSymbol(i: Int, j: Int): Option[Char] =
+      (horizontallyAdjacent(i, j), verticallyAdjacent(i, j), diagonallyAdjacent(i, j)) match {
+        case (Some(symbol), _, _) => Some(symbol)
+        case (_, Some(symbol), _) => Some(symbol)
+        case (_, _, Some(symbol)) => Some(symbol)
+        case _ => None
+      }
 
     val NumberLocation(i, numberStart, size) = numberLocation
     (numberStart until numberStart + size).collectFirst {
@@ -63,6 +69,33 @@ class Engineer(schematic: Seq[Seq[Char]]) {
     (leftSymbol(i, j), rightSymbol(i, j)) match {
       case (Some(leftChar), _) => Some(leftChar)
       case (_, Some(rightChar)) => Some(rightChar)
+      case _ => None
+    }
+  }
+
+  private def verticallyAdjacent(i: Int, j: Int): Option[Char] = {
+    def aboveSymbol(i: Int, j: Int): Option[Char] = if (i > 0 && i <= m - 1) isSymbol(i - 1, j) else None
+    def belowSymbol(i: Int, j: Int): Option[Char] = if (i >= 0 && i < m - 1) isSymbol(i + 1, j) else None
+
+    (aboveSymbol(i, j), belowSymbol(i, j)) match {
+      case (Some(aboveChar), _) => Some(aboveChar)
+      case (_, Some(belowChar)) => Some(belowChar)
+      case _ => None
+    }
+  }
+
+  // TODO: implement
+  private def diagonallyAdjacent(i: Int, j: Int): Option[Char] = {
+    def aboveLeftSymbol(i: Int, j: Int): Option[Char] = if (i > 0 && j > 0) isSymbol(i - 1, j - 1) else None
+    def aboveRightSymbol(i: Int, j: Int): Option[Char] = if (i > 0 && j < n - 1) isSymbol(i - 1, j + 1) else None
+    def belowLeftSymbol(i: Int, j: Int): Option[Char] = if (i < m - 1 && j > 0) isSymbol(i + 1, j - 1) else None
+    def belowRightSymbol(i: Int, j: Int): Option[Char] = if (i < m - 1 && j < n - 1) isSymbol(i + 1, j + 1) else None
+
+    (aboveLeftSymbol(i, j), aboveRightSymbol(i, j), belowLeftSymbol(i, j), belowRightSymbol(i, j)) match {
+      case (Some(aboveLeftChar), _, _, _) => Some(aboveLeftChar)
+      case (_, Some(aboveRightChar), _, _) => Some(aboveRightChar)
+      case (_, _, Some(belowLeftChar), _) => Some(belowLeftChar)
+      case (_, _, _, Some(belowRightChar)) => Some(belowRightChar)
       case _ => None
     }
   }
